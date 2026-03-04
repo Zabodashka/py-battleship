@@ -10,10 +10,6 @@ class Battleship:
 
     def __init__(self, ships: List[Ship]) -> None:
         self._ships_input: List[Ship] = ships
-        self._field: List[List[str]] = [
-            ["~" for _ in range(self.FIELD_SIZE)]
-            for _ in range(self.FIELD_SIZE)
-        ]
         self._ship_cells: Dict[Cell, int] = {}
         self._ships: Dict[int, Set[Cell]] = {}
         self._hits: Set[Cell] = set()
@@ -35,12 +31,16 @@ class Battleship:
             cells: Set[Cell] = set()
 
             if row1 == row2:
-                for col in range(min(col1, col2),
-                                 max(col1, col2) + 1):
+                for col in range(
+                    min(col1, col2),
+                    max(col1, col2) + 1,
+                ):
                     cells.add((row1, col))
             else:
-                for row in range(min(row1, row2),
-                                 max(row1, row2) + 1):
+                for row in range(
+                    min(row1, row2),
+                    max(row1, row2) + 1,
+                ):
                     cells.add((row, col1))
 
             self._ships[ship_id] = cells
@@ -50,12 +50,8 @@ class Battleship:
                     raise ValueError("Ships overlap")
 
                 self._ship_cells[cell] = ship_id
-                row, col = cell
-                self._field[row][col] = "□"
 
     def fire(self, ceil: Cell) -> str:
-        row, col = ceil
-
         if ceil not in self._ship_cells:
             return "Miss!"
 
